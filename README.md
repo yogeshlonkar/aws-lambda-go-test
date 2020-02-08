@@ -1,36 +1,35 @@
-# go-lambda-invoke
+# aws-lambda-go-test
 
-Small package to allow you to invoke your Go AWS lambda locally.
-
-This _might_ be useful for:
-
-* You want to run an integration test, maybe in conjunction with [LocalStack](https://github.com/atlassian/localstack)?
-  * Unit testing is probably better in most cases
-* You want to validate your CI has built a valid `linux` binary of your application before deploying
-
-I wrote a blog post about it here https://djhworld.github.io/post/2018/01/27/running-go-aws-lambda-functions-locally/
+A package that allows to run integration test against lambda function locally
 
 ## Installing
 
 ```
-go get -u github.com/djhworld/go-lambda-invoke/golambdainvoke
+go get -u github.com/yogeshlonkar/aws-lambda-go-test
 ```
 
 ## Example usage
 
-Run the example lambda [toupperlambda.go](/toupperlambda.go) on port 8001
+```go
+import (
+ at "github.com/yogeshlonkar/aws-lambda-go-test"
+)
 
-```
-_LAMBDA_SERVER_PORT=8001 go run ./toupperlambda.go
-```
-
-Then use this library in tests or wherever you need it, by calling 
-
-```
-response, err := golambdainvoke.Run(Input{
-    Port:    8001,
+response, err := at.Run(at.Input{
     Payload: "payload",
 })
+if respose != expected {
+  // do fail
+}
 ```
 
-Note that `Payload` can be any structure that can be encoded by the `encoding/json` package. Your lambda function will need to use this structure in its type signature.
+### Input parameters
+| Parameter | Default value | Description |
+|`TimeOut`       | `time.Duration` | 5 seconds | for which connection will tried to be made otherwise lambda will be started by this library |
+|`Port`          | `int` | random if not provided | port where lambda is or will be started on |
+|`AbsLambdaPath` | `string` | `main.go` relative to test | Absolute path the lambda go file |
+|`Payload`       | `interface{}` | - | Any structure that can be encoded by the `encoding/json` package |
+|`ClientContext` | `*lc.ClientContext` | - | |
+|`Deadline`      | `*messages.InvokeRequest_Timestamp` | -  | |
+
+Run function will set default values and check if the lambda is running or not if not running it will start the lambda and perform RPC API call 
