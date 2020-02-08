@@ -1,4 +1,4 @@
-# aws-lambda-go-test
+# aws-lambda-go-test ![Continuous Integration](https://github.com/yogeshlonkar/aws-lambda-go-test/workflows/Continuous%20Integration/badge.svg?branch=master)
 
 A package that allows to run integration test against lambda function locally
 
@@ -24,7 +24,8 @@ if respose != expected {
 ```
 
 ### Input parameters
-| Parameter | Default value | Description |
+| Parameter | type | Default value | Description |
+|--|--|--|--|
 |`TimeOut`       | `time.Duration` | 5 seconds | for which connection will tried to be made otherwise lambda will be started by this library |
 |`Port`          | `int` | random if not provided | port where lambda is or will be started on |
 |`AbsLambdaPath` | `string` | `main.go` relative to test | Absolute path the lambda go file |
