@@ -12,10 +12,10 @@ go get -u github.com/yogeshlonkar/aws-lambda-go-test
 
 ```go
 import (
- at "github.com/yogeshlonkar/aws-lambda-go-test"
+ alt "github.com/yogeshlonkar/aws-lambda-go-test/local"
 )
 
-response, err := at.Run(at.Input{
+response, err := alt.Run(alt.Input{
     Payload: "payload",
 })
 if respose != expected {

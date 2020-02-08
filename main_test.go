@@ -7,12 +7,14 @@ import (
 	"path/filepath"
 	"runtime"
 	"testing"
+
+	alt "github.com/yogeshlonkar/aws-lambda-go-test/local"
 )
 
 func TestSuccessIT(t *testing.T) {
 	expected := "some-string"
 
-	response, err := Run(Input{})
+	response, err := alt.Run(alt.Input{})
 
 	if err != nil {
 		log.Println(err)
@@ -34,7 +36,7 @@ func TestSuccessIT(t *testing.T) {
 func TestSuccessITWithCustomPort(t *testing.T) {
 	expected := "some-string"
 
-	response, err := Run(Input{
+	response, err := alt.Run(alt.Input{
 		Port: 8818,
 	})
 
@@ -61,7 +63,7 @@ func TestSuccessITWithCustomPortAndPath(t *testing.T) {
 	_, b, _, _ := runtime.Caller(0)
 	basepath := filepath.Dir(b)
 
-	response, err := Run(Input{
+	response, err := alt.Run(alt.Input{
 		Port:          9922,
 		AbsLambdaPath: path.Join(basepath, "test/random_name_main.go"),
 	})
