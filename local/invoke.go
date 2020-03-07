@@ -20,6 +20,7 @@ import (
 const functioninvokeRPC = "Function.Invoke"
 
 type Input struct {
+	Delay         time.Duration
 	TimeOut       time.Duration
 	Port          int
 	AbsLambdaPath string
@@ -36,6 +37,9 @@ func Run(input Input) ([]byte, error) {
 	tempExecution := input.startLambdaIfNotRunning()
 	if tempExecution != nil {
 		defer tempExecution()
+	}
+	if input.Delay != 0 {
+		time.Sleep(input.Delay)
 	}
 	// log.Println("Using port: for test", input.Port)
 
